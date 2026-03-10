@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aarav Halvadiya — Android Developer</title>
+<meta name="description" content="Aarav Halvadiya — Android Developer building scalable Android apps with Kotlin and Jetpack Compose."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #E6E2C5;
+  --blue: #2B4593;
+  --cream-dim: #d8d3b0;
+  --text: #1c1c1c;
+  --text-mid: #555;
+  --text-light: #999;
+  --border: rgba(43,69,147,0.14);
+  --f: 'Hanken Grotesk', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--f); background: var(--cream); color: var(--text); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+::selection { background: var(--blue); color: var(--cream); }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--blue); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 60px; background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem;
+}
+.nav-logo {
+  font-weight: 700; font-size: 0.92rem; color: var(--text);
+  text-decoration: none; letter-spacing: -0.02em;
+  display: flex; align-items: center; gap: 0.55rem;
+}
+.logo-mark {
+  width: 28px; height: 28px; background: var(--blue); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cream); font-size: 0.62rem; font-weight: 800;
+}
+.nav-links { display: flex; gap: 0.15rem; }
+.nav-links a {
+  font-size: 0.82rem; font-weight: 500; color: var(--text-mid);
+  text-decoration: none; padding: 0.35rem 0.65rem; border-radius: 5px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-links a:hover { color: var(--blue); background: rgba(43,69,147,0.07); }
+.nav-cta {
+  font-size: 0.82rem; font-weight: 600; color: var(--cream);
+  background: var(--blue); text-decoration: none;
+  padding: 0.38rem 1rem; border-radius: 6px; transition: opacity 0.2s;
+}
+.nav-cta:hover { opacity: 0.82; }
+.hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; }
+.hamburger span { width: 20px; height: 1.5px; background: var(--text); border-radius: 2px; }
+.mobile-menu {
+  display: none; position: fixed; top: 60px; left: 0; right: 0; z-index: 99;
+  background: var(--cream); border-bottom: 1px solid var(--border);
+  flex-direction: column; padding: 0.75rem 2.5rem 1.25rem;
+}
+.mobile-menu a {
+  font-size: 0.9rem; color: var(--text-mid); text-decoration: none;
+  padding: 0.6rem 0; border-bottom: 1px solid var(--border); transition: color 0.2s;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--blue); }
+.mobile-menu.open { display: flex; }
+
+/* HERO */
+.hero {
+  min-height: 100vh; padding-top: 60px;
+  display: flex; flex-direction: column; justify-content: center;
+  border-bottom: 1px solid var(--border);
+}
+.hero-inner { max-width: 860px; margin: 0 auto; padding: 5rem 2.5rem 4rem; width: 100%; }
+.hero-status {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.73rem; font-weight: 600; color: var(--blue);
+  letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 2rem;
+}
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+.hero-name {
+  font-size: clamp(3.2rem, 9vw, 7rem); font-weight: 800;
+  letter-spacing: -0.05em; line-height: 0.92;
+  color: var(--text); margin-bottom: 2rem;
+}
+.hero-name em { font-style: normal; color: var(--blue); }
+.typing-row {
+  font-size: clamp(1rem, 2.5vw, 1.2rem); font-weight: 400; color: var(--text-mid);
+  margin-bottom: 2rem; min-height: 1.8em; display: flex; align-items: center; gap: 0.3rem;
+}
+.type-word { color: var(--blue); font-weight: 600; }
+.cursor { color: var(--blue); animation: blink 1s infinite; font-weight: 300; }
+.hero-desc {
+  font-size: 1rem; color: var(--text-mid); max-width: 500px;
+  line-height: 1.75; margin-bottom: 2.75rem; font-weight: 400;
+}
+.hero-btns { display: flex; gap: 0.65rem; flex-wrap: wrap; }
+.btn {
+  font-family: var(--f); font-size: 0.83rem; font-weight: 600;
+  padding: 0.6rem 1.4rem; border-radius: 6px; cursor: pointer;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;
+  transition: all 0.18s; border: 1px solid transparent;
+}
+.btn-fill { background: var(--blue); color: var(--cream); border-color: var(--blue); }
+.btn-fill:hover { opacity: 0.84; }
+.btn-outline { background: transparent; color: var(--blue); border-color: var(--blue); }
+.btn-outline:hover { background: rgba(43,69,147,0.07); }
+.hero-meta {
+  display: flex; gap: 3rem; margin-top: 4rem;
+  padding-top: 2.5rem; border-top: 1px solid var(--border);
+}
+.meta-num { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.04em; color: var(--blue); line-height: 1; }
+.meta-label { font-size: 0.75rem; color: var(--text-light); margin-top: 0.2rem; }
+
+/* SECTIONS */
+.section { padding: 5.5rem 0; border-bottom: 1px solid var(--border); }
+.container { max-width: 860px; margin: 0 auto; padding: 0 2.5rem; }
+.section-head { margin-bottom: 3.5rem; }
+.section-eyebrow {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--blue);
+  display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;
+}
+.section-eyebrow::before { content: ''; width: 14px; height: 1px; background: var(--blue); }
+.section-title {
+  font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 800;
+  letter-spacing: -0.035em; line-height: 1.08; color: var(--text);
+}
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 5rem; align-items: start; }
+.about-body p { font-size: 0.93rem; color: var(--text-mid); line-height: 1.8; margin-bottom: 1rem; }
+.about-body p strong { color: var(--text); font-weight: 600; }
+.about-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.75rem; }
+.tag {
+  font-size: 0.73rem; font-weight: 500; padding: 0.28rem 0.65rem;
+  border-radius: 4px; border: 1px solid var(--border); color: var(--blue);
+  background: transparent; transition: all 0.18s; cursor: default;
+}
+.tag:hover { background: var(--blue); color: var(--cream); border-color: var(--blue); }
+.info-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.info-row {
+  display: flex; flex-direction: column; gap: 0.12rem;
+  padding: 0.9rem 1.25rem; border-bottom: 1px solid var(--border);
+}
+.info-row:last-child { border-bottom: none; }
+.info-lbl { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-light); }
+.info-val { font-size: 0.85rem; color: var(--text); }
+.info-val a { color: var(--blue); text-decoration: none; }
+.info-val a:hover { text-decoration: underline; }
+
+/* SKILLS */
+.skills-rows { display: flex; flex-direction: column; }
+.skill-row {
+  display: grid; grid-template-columns: 150px 1fr; gap: 2rem;
+  align-items: start; padding: 1.6rem 0; border-bottom: 1px solid var(--border);
+}
+.skill-row:last-child { border-bottom: none; }
+.skill-cat { font-size: 0.8rem; font-weight: 600; color: var(--text); padding-top: 0.25rem; }
+.skill-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.pill {
+  font-size: 0.77rem; font-weight: 500; padding: 0.27rem 0.7rem;
+  border-radius: 4px; border: 1px solid var(--border); color: var(--text-mid);
+  transition: all 0.18s; cursor: default;
+}
+.pill:hover { border-color: var(--blue); color: var(--blue); }
+
+/* PROJECTS */
+.projects-rows { display: flex; flex-direction: column; }
+.project-row {
+  display: grid; grid-template-columns: 56px 1fr; gap: 2rem;
+  padding: 2.5rem 0; border-bottom: 1px solid var(--border);
+  transition: padding-left 0.25s;
+}
+.project-row:first-child { border-top: 1px solid var(--border); }
+.project-row:hover { padding-left: 0.4rem; }
+.proj-num { font-size: 0.7rem; font-weight: 700; color: var(--text-light); padding-top: 0.3rem; letter-spacing: 0.04em; }
+.proj-title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0.5rem; }
+.proj-desc { font-size: 0.87rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 1.1rem; max-width: 560px; }
+.proj-stack { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.1rem; }
+.proj-link {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.8rem; font-weight: 700; color: var(--blue);
+  text-decoration: none; border-bottom: 1px solid currentColor;
+  padding-bottom: 1px; transition: opacity 0.18s;
+}
+.proj-link:hover { opacity: 0.65; }
+
+/* EXPERIENCE */
+.exp-rows { display: flex; flex-direction: column; }
+.exp-row {
+  display: grid; grid-template-columns: 56px 1fr; gap: 2rem;
+  padding: 2.5rem 0; border-bottom: 1px solid var(--border);
+}
+.exp-row:first-child { border-top: 1px solid var(--border); }
+.exp-period { font-size: 0.7rem; font-weight: 700; color: var(--text-light); padding-top: 0.3rem; line-height: 1.5; }
+.exp-role { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.18rem; }
+.exp-company { font-size: 0.8rem; color: var(--blue); font-weight: 600; margin-bottom: 0.75rem; }
+.exp-desc { font-size: 0.87rem; color: var(--text-mid); line-height: 1.7; max-width: 560px; }
+.exp-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1rem; }
+
+/* GITHUB */
+.gh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+.gh-wide { grid-column: 1 / -1; }
+.gh-grid img { width: 100%; border-radius: 6px; border: 1px solid var(--border); display: block; }
+.gh-link {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.82rem; font-weight: 700; color: var(--blue);
+  text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px;
+  transition: opacity 0.18s;
+}
+.gh-link:hover { opacity: 0.65; }
+
+/* BLOG */
+.blog-rows { display: flex; flex-direction: column; }
+.blog-row {
+  display: grid; grid-template-columns: 56px 1fr; gap: 2rem;
+  padding: 2.5rem 0; border-bottom: 1px solid var(--border);
+  text-decoration: none; color: inherit; transition: padding-left 0.25s;
+}
+.blog-row:first-child { border-top: 1px solid var(--border); }
+.blog-row:hover { padding-left: 0.4rem; }
+.blog-cat { font-size: 0.67rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: var(--blue); padding-top: 0.35rem; }
+.blog-title { font-size: 0.97rem; font-weight: 700; color: var(--text); margin-bottom: 0.35rem; letter-spacing: -0.01em; }
+.blog-preview { font-size: 0.84rem; color: var(--text-mid); line-height: 1.65; }
+.blog-cta { font-size: 0.78rem; font-weight: 700; color: var(--blue); margin-top: 0.65rem; display: inline-block; }
+
+/* RESUME */
+.resume-box {
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 2.25rem; display: flex; align-items: center;
+  justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
+}
+.resume-box h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
+.resume-box p { font-size: 0.83rem; color: var(--text-mid); }
+.resume-btns { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+/* CONTACT */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.contact-text { font-size: 0.93rem; color: var(--text-mid); line-height: 1.8; margin-bottom: 2rem; }
+.contact-links { display: flex; flex-direction: column; }
+.c-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.9rem 0; border-bottom: 1px solid var(--border);
+  text-decoration: none; color: inherit; transition: padding-left 0.22s;
+}
+.c-link:first-child { border-top: 1px solid var(--border); }
+.c-link:hover { padding-left: 0.4rem; }
+.c-lbl { font-size: 0.67rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.1rem; }
+.c-val { font-size: 0.85rem; color: var(--blue); font-weight: 500; }
+.c-arrow { font-size: 0.75rem; color: var(--text-light); transition: color 0.18s; }
+.c-link:hover .c-arrow { color: var(--blue); }
+.form-group { margin-bottom: 1.1rem; }
+.form-label { display: block; font-size: 0.67rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.35rem; }
+.form-input {
+  width: 100%; padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border); border-radius: 6px;
+  background: transparent; color: var(--text);
+  font-family: var(--f); font-size: 0.88rem; outline: none; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--blue); }
+.form-input::placeholder { color: var(--text-light); }
+textarea.form-input { resize: vertical; min-height: 96px; }
+
+/* FOOTER */
+footer {
+  padding: 2rem 2.5rem; border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-copy { font-size: 0.78rem; color: var(--text-light); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { font-size: 0.78rem; color: var(--text-light); text-decoration: none; transition: color 0.18s; }
+.footer-links a:hover { color: var(--blue); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.18s; }
+.d3 { transition-delay: 0.26s; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .skill-row { grid-template-columns: 1fr; gap: 0.4rem; }
+  .project-row, .exp-row, .blog-row { grid-template-columns: 1fr; gap: 0.35rem; }
+  .proj-num, .exp-period, .blog-cat { display: none; }
+  .gh-grid { grid-template-columns: 1fr; }
+  .gh-wide { grid-column: auto; }
+  .resume-box { flex-direction: column; align-items: flex-start; }
+  footer { flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
+  .hero-meta { gap: 2rem; flex-wrap: wrap; }
+}
+@media (max-width: 500px) {
+  nav, footer { padding: 0 1.5rem; }
+  .container, .hero-inner { padding: 0 1.5rem; }
+  .hero-inner { padding-top: 4rem; padding-bottom: 3rem; }
+  .hero-name { font-size: 3rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">AH</div>
+    Aarav Halvadiya
+  </a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="mailto:aaravhalvadiya@gmail.com" class="nav-cta">Hire me</a>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#skills" onclick="closeMobile()">Skills</a>
+  <a href="#projects" onclick="closeMobile()">Projects</a>
+  <a href="#experience" onclick="closeMobile()">Experience</a>
+  <a href="#github" onclick="closeMobile()">GitHub</a>
+  <a href="#blog" onclick="closeMobile()">Blog</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-status"><span class="live-dot"></span>Ahmedabad, Gujarat · Available</div>
+    <h1 class="hero-name">Aarav<br><em>Halvadiya</em></h1>
+    <div class="typing-row">
+      <span class="type-word" id="typeTarget"></span><span class="cursor">|</span>
+    </div>
+    <p class="hero-desc">Android Developer building scalable, user-centric mobile applications with Kotlin, Jetpack Compose, and modern architecture patterns.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-fill">View projects</a>
+      <a href="resume.pdf" download class="btn btn-outline">Download resume</a>
+      <a href="#contact" class="btn btn-outline">Contact me</a>
+    </div>
+    <div class="hero-meta">
+      <div><div class="meta-num">3+</div><div class="meta-label">Projects shipped</div></div>
+      <div><div class="meta-num">10+</div><div class="meta-label">Technologies</div></div>
+      <div><div class="meta-num">1+</div><div class="meta-label">Years experience</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">About</div>
+      <h2 class="section-title">Building apps<br>that matter</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-body reveal">
+        <p>I'm an aspiring <strong>Android Developer</strong> with a passion for building scalable, production-ready mobile applications. I specialize in <strong>Kotlin</strong> and <strong>Java</strong> with a strong focus on modern architecture and clean code.</p>
+        <p>My work spans location-aware apps powered by Google APIs, real-time collaborative tools, and e-commerce experiences — always centered on <strong>clean architecture</strong>, efficient state management, and seamless user experiences.</p>
+        <p>I'm continuously learning, contributing to open source, and exploring what's next in the Android ecosystem.</p>
+        <div class="about-tags">
+          <span class="tag">Kotlin</span><span class="tag">Jetpack Compose</span>
+          <span class="tag">MVVM</span><span class="tag">Firebase</span>
+          <span class="tag">Clean Architecture</span><span class="tag">Coroutines</span>
+          <span class="tag">Dagger Hilt</span><span class="tag">REST APIs</span>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="info-card">
+          <div class="info-row"><span class="info-lbl">Location</span><span class="info-val">Ahmedabad, Gujarat, India</span></div>
+          <div class="info-row"><span class="info-lbl">Email</span><span class="info-val"><a href="mailto:aaravhalvadiya@gmail.com">aaravhalvadiya@gmail.com</a></span></div>
+          <div class="info-row"><span class="info-lbl">LinkedIn</span><span class="info-val"><a href="https://www.linkedin.com/in/aaravhalvadiya/" target="_blank">aaravhalvadiya</a></span></div>
+          <div class="info-row"><span class="info-lbl">GitHub</span><span class="info-val"><a href="https://github.com/Aarav3325" target="_blank">Aarav3325</a></span></div>
+          <div class="info-row"><span class="info-lbl">Medium</span><span class="info-val"><a href="https://medium.com/@aaravhalvadiya" target="_blank">@aaravhalvadiya</a></span></div>
+          <div class="info-row"><span class="info-lbl">Twitter</span><span class="info-val"><a href="https://x.com/Aarav3904" target="_blank">@Aarav3904</a></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section" id="skills">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Skills</div>
+      <h2 class="section-title">Tech stack</h2>
+    </div>
+    <div class="skills-rows">
+      <div class="skill-row reveal"><div class="skill-cat">Languages</div><div class="skill-pills"><span class="pill">Kotlin</span><span class="pill">Java</span></div></div>
+      <div class="skill-row reveal d1"><div class="skill-cat">Android</div><div class="skill-pills"><span class="pill">Jetpack Compose</span><span class="pill">XML Layouts</span><span class="pill">Android SDK</span><span class="pill">Material 3</span></div></div>
+      <div class="skill-row reveal d2"><div class="skill-cat">Architecture</div><div class="skill-pills"><span class="pill">MVVM</span><span class="pill">Clean Architecture</span></div></div>
+      <div class="skill-row reveal"><div class="skill-cat">Networking</div><div class="skill-pills"><span class="pill">Retrofit</span><span class="pill">REST APIs</span></div></div>
+      <div class="skill-row reveal d1"><div class="skill-cat">Concurrency</div><div class="skill-pills"><span class="pill">Coroutines</span><span class="pill">Flow</span><span class="pill">StateFlow</span></div></div>
+      <div class="skill-row reveal d2"><div class="skill-cat">Databases</div><div class="skill-pills"><span class="pill">Firebase Realtime DB</span><span class="pill">Room Database</span><span class="pill">MySQL</span></div></div>
+      <div class="skill-row reveal"><div class="skill-cat">Google APIs</div><div class="skill-pills"><span class="pill">Maps SDK</span><span class="pill">Places API</span><span class="pill">Fused Location</span><span class="pill">Geocoding</span><span class="pill">Geofencing</span></div></div>
+      <div class="skill-row reveal d1"><div class="skill-cat">DI</div><div class="skill-pills"><span class="pill">Dagger Hilt</span></div></div>
+      <div class="skill-row reveal d2"><div class="skill-cat">Tools</div><div class="skill-pills"><span class="pill">Android Studio</span><span class="pill">IntelliJ</span><span class="pill">VS Code</span><span class="pill">Git</span><span class="pill">GitHub</span><span class="pill">Firebase Crashlytics</span><span class="pill">Play Console</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section" id="projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Projects</div>
+      <h2 class="section-title">Selected work</h2>
+    </div>
+    <div class="projects-rows">
+      <div class="project-row reveal">
+        <div class="proj-num">01</div>
+        <div>
+          <div class="proj-title">GeoWav</div>
+          <p class="proj-desc">A location-based Android app detecting user entry and exit from places using foreground and background tracking. Integrates Google Places API, Fused Location Provider, and WhatsApp Cloud API for automated geofence alerts. Includes real-time location sharing, Firebase emergency mode, and session history.</p>
+          <div class="proj-stack"><span class="pill">Kotlin</span><span class="pill">MVVM</span><span class="pill">Google Places API</span><span class="pill">WhatsApp Cloud API</span><span class="pill">Firebase</span><span class="pill">Geofencing</span></div>
+          <a href="https://github.com/Aarav3325/GeoWav" target="_blank" class="proj-link">View on GitHub →</a>
+        </div>
+      </div>
+      <div class="project-row reveal d1">
+        <div class="proj-num">02</div>
+        <div>
+          <div class="proj-title">F1 Racing App</div>
+          <p class="proj-desc">An Android app displaying Formula 1 race schedules, driver standings, and news via public REST APIs. Combines Java business logic with Jetpack Compose UI following ViewModel, LiveData, and Repository architecture. Firebase Realtime Database handles data retrieval and caching.</p>
+          <div class="proj-stack"><span class="pill">Java</span><span class="pill">Retrofit</span><span class="pill">Firebase</span><span class="pill">Jetpack Compose</span><span class="pill">LiveData</span></div>
+          <a href="https://github.com/Aarav3325/f1-clone" target="_blank" class="proj-link">View on GitHub →</a>
+        </div>
+      </div>
+      <div class="project-row reveal d2">
+        <div class="proj-num">03</div>
+        <div>
+          <div class="proj-title">Blissful Brews</div>
+          <p class="proj-desc">A cafe ordering app with authentication, cart management, and real-time order processing via Firebase Realtime Database. Room database provides offline caching of menu and cart data. Reactive cart system built with ViewModel and Compose state management.</p>
+          <div class="proj-stack"><span class="pill">Firebase</span><span class="pill">Jetpack Compose</span><span class="pill">XML</span><span class="pill">Room DB</span><span class="pill">ViewModel</span></div>
+          <a href="https://github.com/Aarav3325/Blissfull_Brews" target="_blank" class="proj-link">View on GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Experience</div>
+      <h2 class="section-title">Where I've worked</h2>
+    </div>
+    <div class="exp-rows">
+      <div class="exp-row reveal">
+        <div class="exp-period">2024 —<br>Present</div>
+        <div>
+          <div class="exp-role">Android Development Intern</div>
+          <div class="exp-company">Internship · Android Development</div>
+          <p class="exp-desc">Working on Android application development with Kotlin and modern architecture. Focused on implementing clean architecture, building responsive UIs with Jetpack Compose, and integrating REST APIs and Firebase services into production applications.</p>
+          <div class="exp-tags"><span class="pill">Kotlin</span><span class="pill">Jetpack Compose</span><span class="pill">MVVM</span><span class="pill">Firebase</span><span class="pill">REST APIs</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GITHUB -->
+<section class="section" id="github">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Open Source</div>
+      <h2 class="section-title">GitHub activity</h2>
+    </div>
+    <div class="reveal">
+      <div class="gh-grid">
+        <img src="https://github-readme-stats.vercel.app/api?username=Aarav3325&show_icons=true&bg_color=E6E2C5&border_color=c8c4a8&title_color=2B4593&icon_color=2B4593&text_color=555&hide_border=false&count_private=true" alt="GitHub Stats" loading="lazy"/>
+        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Aarav3325&layout=compact&bg_color=E6E2C5&border_color=c8c4a8&title_color=2B4593&text_color=555&hide_border=false" alt="Top Languages" loading="lazy"/>
+        <img class="gh-wide" src="https://github-readme-streak-stats.herokuapp.com/?user=Aarav3325&background=E6E2C5&border=c8c4a8&stroke=c8c4a8&ring=2B4593&fire=2B4593&currStreakNum=444&sideNums=444&currStreakLabel=2B4593&sideLabels=2B4593&dates=999" alt="GitHub Streak" loading="lazy"/>
+      </div>
+      <a href="https://github.com/Aarav3325" target="_blank" class="gh-link">View full GitHub profile →</a>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="section" id="blog">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Writing</div>
+      <h2 class="section-title">Latest articles</h2>
+    </div>
+    <div class="blog-rows">
+      <a href="https://medium.com/@aaravhalvadiya" target="_blank" class="blog-row reveal">
+        <div class="blog-cat">Android</div>
+        <div>
+          <div class="blog-title">Getting Started with Jetpack Compose: Building Modern UIs</div>
+          <p class="blog-preview">A guide to Compose's declarative paradigm — from state management to animations and theming.</p>
+          <span class="blog-cta">Read on Medium →</span>
+        </div>
+      </a>
+      <a href="https://medium.com/@aaravhalvadiya" target="_blank" class="blog-row reveal d1">
+        <div class="blog-cat">Arch</div>
+        <div>
+          <div class="blog-title">MVVM + Clean Architecture in Android: A Practical Guide</div>
+          <p class="blog-preview">Separation of concerns with real-world examples and best practices for maintainable Android apps.</p>
+          <span class="blog-cta">Read on Medium →</span>
+        </div>
+      </a>
+      <a href="https://medium.com/@aaravhalvadiya" target="_blank" class="blog-row reveal d2">
+        <div class="blog-cat">Firebase</div>
+        <div>
+          <div class="blog-title">Geofencing with Google APIs: Building GeoWav</div>
+          <p class="blog-preview">A deep dive into location-aware Android development with Geofencing API and Firebase integration.</p>
+          <span class="blog-cta">Read on Medium →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- RESUME -->
+<section class="section" id="resume">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Resume</div>
+      <h2 class="section-title">My resume</h2>
+    </div>
+    <div class="resume-box reveal d1">
+      <div>
+        <h3>Aarav Halvadiya — Android Developer</h3>
+        <p>Kotlin · Jetpack Compose · MVVM · Firebase · Google APIs · Coroutines</p>
+      </div>
+      <div class="resume-btns">
+        <a href="resume.pdf" download class="btn btn-fill">Download PDF</a>
+        <a href="resume.pdf" targe="_blank" class="btn btn-outline">View online</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Contact</div>
+      <h2 class="section-title">Let's talk</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal">
+        <p class="contact-text">Whether you have an Android project, an internship opportunity, or just want to talk tech — I'm always happy to connect.</p>
+        <div class="contact-links">
+          <a href="mailto:aaravhalvadiya@gmail.com" class="c-link"><div><div class="c-lbl">Email</div><div class="c-val">aaravhalvadiya@gmail.com</div></div><span class="c-arrow">↗</span></a>
+          <a href="https://www.linkedin.com/in/aaravhalvadiya/" target="_blank" class="c-link"><div><div class="c-lbl">LinkedIn</div><div class="c-val">aaravhalvadiya</div></div><span class="c-arrow">↗</span></a>
+          <a href="https://github.com/Aarav3325" target="_blank" class="c-link"><div><div class="c-lbl">GitHub</div><div class="c-val">Aarav3325</div></div><span class="c-arrow">↗</span></a>
+          <a href="https://x.com/Aarav3904" target="_blank" class="c-link"><div><div class="c-lbl">Twitter / X</div><div class="c-val">@Aarav3904</div></div><span class="c-arrow">↗</span></a>
+          <a href="https://medium.com/@aaravhalvadiya" target="_blank" class="c-link"><div><div class="c-lbl">Medium</div><div class="c-val">@aaravhalvadiya</div></div><span class="c-arrow">↗</span></a>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="form-group"><label class="form-label">Name</label><input class="form-input" type="text" placeholder="Your name"/></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="your@email.com"/></div>
+        <div class="form-group"><label class="form-label">Message</label><textarea class="form-input" placeholder="What's on your mind?"></textarea></div>
+        <button class="btn btn-fill" style="width:100%;justify-content:center" onclick="handleForm(this)">Send message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">© 2026 Aarav Halvadiya — Built with Next.js & Tailwind</div>
+  <div class="footer-links">
+    <a href="https://github.com/Aarav3325" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/aaravhalvadiya/" target="_blank">LinkedIn</a>
+    <a href="https://medium.com/@aaravhalvadiya" target="_blank">Medium</a>
+    <a href="https://x.com/Aarav3904" target="_blank">Twitter</a>
+  </div>
+</footer>
+
+<script>
+const words = ["Android Developer","Kotlin Developer","Jetpack Compose Enthusiast","Building Scalable Mobile Apps"];
+let wi = 0, ci = 0, del = false;
+const el = document.getElementById('typeTarget');
+function tick() {
+  const w = words[wi];
+  el.textContent = del ? w.slice(0, ci--) : w.slice(0, ci++);
+  if (!del && ci > w.length) { del = true; setTimeout(tick, 1600); return; }
+  if (del && ci < 0) { del = false; wi = (wi + 1) % words.length; ci = 0; }
+  setTimeout(tick, del ? 42 : 68);
+}
+tick();
+
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07, rootMargin: '0px 0px -24px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+function handleForm(btn) {
+  btn.textContent = 'Sent ✓';
+  btn.style.background = '#2e6b4a';
+  btn.style.borderColor = '#2e6b4a';
+  setTimeout(() => { btn.textContent = 'Send message'; btn.style.background = ''; btn.style.borderColor = ''; }, 3000);
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = a.getAttribute('href');
+    if (t === '#') return;
+    e.preventDefault();
+    document.querySelector(t)?.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
